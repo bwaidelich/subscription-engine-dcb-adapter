@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Wwwision\SubscriptionEngineDcbAdapter;
 
 use Wwwision\DCBEventStore\EventStore;
-use Wwwision\DCBEventStore\Types\EventEnvelope;
-use Wwwision\DCBEventStore\Types\ReadOptions;
-use Wwwision\DCBEventStore\Types\StreamQuery\StreamQuery;
+use Wwwision\DCBEventStore\Query\Query;
+use Wwwision\DCBEventStore\ReadOptions;
+use Wwwision\DCBEventStore\SequencedEvent\SequencedEvent;
 use Wwwision\SubscriptionEngine\EventStore\EventStoreAdapter;
 use Wwwision\SubscriptionEngine\Subscription\Position;
 
 /**
- * @implements EventStoreAdapter<EventEnvelope>
+ * @implements EventStoreAdapter<SequencedEvent>
  */
 final readonly class DcbEventStoreAdapter implements EventStoreAdapter
 {
@@ -23,17 +23,17 @@ final readonly class DcbEventStoreAdapter implements EventStoreAdapter
 
     public function read(Position $startPosition): iterable
     {
-        return $this->eventStore->read(StreamQuery::wildcard(), ReadOptions::create(from: $startPosition->value));
+        return $this->eventStore->read(Query::all(), ReadOptions::create(from: $startPosition->value));
     }
 
     public function lastPosition(): Position
     {
-        $lastEventEnvelope = $this->eventStore->read(StreamQuery::wildcard(), ReadOptions::create(backwards: true))->first();
-        return Position::fromInteger($lastEventEnvelope->sequenceNumber->value ?? 0);
+        $lastSequencedEvent = $this->eventStore->read(Query::all(), ReadOptions::create(backwards: true))->first();
+        return Position::fromInteger($lastSequencedEvent->position->value ?? 0);
     }
 
     public function eventPosition(object $event): Position
     {
-        return Position::fromInteger($event->sequenceNumber->value);
+        return Position::fromInteger($event->position->value);
     }
 }
