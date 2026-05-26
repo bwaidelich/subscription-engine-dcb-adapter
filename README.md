@@ -13,12 +13,12 @@ $subscriptionEngine = new SubscriptionEngine(
     subscribers: Subscribers::fromArray([
         Subscriber::create(
             id: 'some-projection',
-            handler: fn (EventEnvelope $eventEnvelope) => print($eventEnvelope->event->type->value),
+            handler: fn (SequencedEvent $sequencedEvent) => print($sequencedEvent->event->type->value),
             reset: fn () => print('resetting projection for replay'),
         ),
         Subscriber::create(
             id: 'some-process',
-            handler: fn (EventEnvelope $eventEnvelope) => print('invoking process...'),
+            handler: fn (SequencedEvent $sequencedEvent) => print('invoking process...'),
             runMode: RunMode::FROM_NOW,
             setup: fn () => print('setting up process...'),
         ),
