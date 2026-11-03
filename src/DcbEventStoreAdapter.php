@@ -21,9 +21,9 @@ final readonly class DcbEventStoreAdapter implements EventStoreAdapter
     ) {
     }
 
-    public function read(Position $startPosition): iterable
+    public function read(Position $startPosition, int|null $limit = null): iterable
     {
-        return $this->eventStore->read(Query::all(), ReadOptions::create(from: $startPosition->value));
+        return $this->eventStore->read(Query::all(), ReadOptions::create(from: $startPosition->value, limit: $limit));
     }
 
     public function lastPosition(): Position
