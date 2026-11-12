@@ -74,6 +74,23 @@ Invoking process for SomethingHappened
 Projecting SomethingHappened at position 1
 ```
 
+## Filtered subscribers
+
+A subscriber can declare a `Query` as filter to receive only matching events:
+
+```php
+use Wwwision\DCBEventStore\Query\Query;
+use Wwwision\DCBEventStore\Query\QueryItem;
+
+Subscriber::create(
+    id: 'orders',
+    handler: $handler,
+    filter: Query::fromItems(QueryItem::create(eventTypes: ['OrderPlaced', 'OrderCancelled'])),
+);
+```
+
+Query items with `onlyLastEvent` are not supported. See [Filtered subscribers](https://github.com/bwaidelich/subscription-engine/blob/main/docs/how-it-works.md#filtered-subscribers) for how the engine applies filters.
+
 ## Next steps
 
 The [guides of the Subscription Engine](https://github.com/bwaidelich/subscription-engine#guides) explain how to rebuild projections, handle failures and more. To process events in the background, see [wwwision/subscription-engine-worker](https://github.com/bwaidelich/subscription-engine-worker).
