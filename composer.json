@@ -22,7 +22,7 @@
     "require": {
         "php": ">=8.3",
         "wwwision/dcb-eventstore": "^5",
-        "wwwision/subscription-engine": "^1 || ^2"
+        "wwwision/subscription-engine": "^2"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
