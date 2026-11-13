@@ -1,7 +1,7 @@
 {
     "name": "wwwision/subscription-engine-dcb-adapter",
     "description": "wwwision/dcb-eventstore adapter for wwwision/subscription-engine",
-    "type": "package",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
